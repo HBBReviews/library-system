@@ -17,7 +17,7 @@ using namespace std;
 void createAccount();
 void changeAccountInfo(string username);
 
-// Public User Function 1
+// Public User Function 1 // COMPLETE
 string getLocationCode()
 {
     cout << "\n----------\nGet Location Code - Public Function [1]\n";
@@ -128,6 +128,7 @@ bool managePersonalAccount()
     return false;
 }
 
+// COMPLETE
 void createAccount()
 {
     string name = "";
@@ -175,7 +176,6 @@ void createAccount()
 // Change Account Details, Delete Account
 void changeAccountInfo(string username)
 {
-   
     cout << "\n----------\nThese are the functions you can do:\n";
     cout << username << "\n";
     cout << "Change Username [1], Change Password [2], Delete Account [3]\n";
@@ -202,21 +202,70 @@ void changeAccountInfo(string username)
         }
     }
 
+    // Write the Old Data to These Variables
+    string tempName = "";
+    string tempYear = "";
+    string tempUsername = "";
+    string tempPassword = "";
+
+    ifstream myfile(username + ".txt");
+    myfile >> tempName >> tempYear >> tempUsername >> tempPassword;
+
     // Change Username
     if (selectedFunction == 1)
     {
-        
+        cout << "\nEnter New Username (No Longer than 10 Characters): ";
+        cin >> username;
+
+        // Check the Data to Make Sure It Fits
+        if (username.length() <= 10)
+        {
+            cout << "Thank You for Updating Your Account\n";
+
+            ofstream myfile;
+            myfile.open(username + ".txt");
+            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword;
+            myfile.close();
+        }
+        else
+        {
+            cout << "Please Enter Your Details Again\nand Check for Errors.\n";
+        }
+
+        // STILL in PROGRESS
+        // Delete Old File with the Old Username
     }
 
-    // Change Password
+    // Change Password // COMPLETE
     else if (selectedFunction == 2)
     {
+        cout << "\nEnter New Password (No Longer than 10 Characters): ";
+        cin >> tempPassword;
 
+        // Check the Data to Make Sure It Fits
+        if (tempPassword.length() <= 10)
+        {
+            cout << "Thank You for Updating Your Account\n";
+
+            ofstream myfile;
+            myfile.open(username + ".txt");
+            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword;
+            myfile.close();
+        }
+        else
+        {
+            cout << "Please Enter Your Details Again\nand Check for Errors.\n";
+        }
     }
 
     // Delete Account
     else
     {
+        // STILL in PROGRESS
 
+        if (remove("campeaj.txt") != 0)
+            perror("Error deleting file");
+        else
+            puts("File successfully deleted");
     }
 }
