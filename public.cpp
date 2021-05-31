@@ -14,9 +14,9 @@
 
 using namespace std;
 
-void manageAccount(bool isAdmin);
+bool openAccount(bool isAdmin);
 void createAccount(bool isAdmin);
-void changeAccountInfo(string username);
+void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
 
 // Public User Function 1 // COMPLETE
@@ -84,7 +84,7 @@ bool managePersonalAccount()
     }
     else
     {
-        manageAccount(false);
+        openAccount(false);
     }
 
     return false;

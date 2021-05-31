@@ -17,9 +17,9 @@ string getUserType();
 int getFunction();
 void selectFunction(int functionNum, bool isAdmin);
 
-void manageAccount(bool isAdmin);
+bool openAccount(bool isAdmin);
 void createAccount(bool isAdmin);
-void changeAccountInfo(string username);
+void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
 string removeSpace(string str);
 
@@ -52,7 +52,7 @@ int main(int argc, const char* argv[])
     {
         cout << "\n----------\nWelcome Administrator!\n";
         cout << "These are the functions you can do:\n";
-        cout << "Add New Library Materials [1], Remove Library Materials [2], Manage Public Accounts [3]\n";
+        cout << "Add New Library Materials [1], Remove Library Materials [2], Manage Personal Account [3]\n";
 
         isAdmin = checkAdmin();
     }
@@ -71,13 +71,13 @@ int main(int argc, const char* argv[])
     return 0;
 }
 
-void introText()
+void introText() // COMPLETE
 {
     cout << "Library Management System:\n";
     cout << "Developed by Charlie Jin\n\n";
 }
 
-string getUserType()
+string getUserType() // COMPLETE
 {
     string userType = "";
     bool checkUserType = false;
@@ -103,7 +103,7 @@ string getUserType()
     return userType;
 }
 
-int getFunction()
+int getFunction() // COMPLETE
 {
     int selectedFunction = 0;
     bool checkFunction = false;
@@ -130,7 +130,7 @@ int getFunction()
     return selectedFunction;
 }
 
-void selectFunction(int functionNum, bool isAdmin)
+void selectFunction(int functionNum, bool isAdmin) // COMPLETE
 {
     if (isAdmin)
     {
@@ -166,7 +166,7 @@ void selectFunction(int functionNum, bool isAdmin)
     }
 }
 
-void manageAccount(bool isAdmin)
+bool openAccount(bool isAdmin) // COMPLETE
 {
     string tempName = "";
     int tempYear{ 0 };
@@ -205,8 +205,9 @@ void manageAccount(bool isAdmin)
     else
     {
         cout << "\n----------\nWelcome, " << addSpace(accountName) << "! Great to have you today!";
-        changeAccountInfo(targetUsername);
     }
+
+    return true;
 }
 
 // COMPLETE
@@ -261,8 +262,8 @@ void createAccount(bool isAdmin)
     }
 }
 
-// Change Account Details, Delete Account
-void changeAccountInfo(string username)
+// Change Account Details, Delete Account // COMPLETE
+void changeAccountInfo(string username, bool isAdmin)
 {
     cout << "\n----------\nThese are the functions you can do:\n";
     cout << "Change Username [1], Change Password [2], Delete Account [3]\n";
@@ -294,6 +295,16 @@ void changeAccountInfo(string username)
     string tempYear = "";
     string tempUsername = "";
     string tempPassword = "";
+    string userType = "";
+
+    if (isAdmin)
+    {
+        userType = "A";
+    }
+    else
+    {
+        userType = "U";
+    }
 
     ifstream myfile(username + ".txt");
     myfile >> tempName >> tempYear >> tempUsername >> tempPassword;
@@ -311,7 +322,7 @@ void changeAccountInfo(string username)
 
             ofstream myfile;
             myfile.open(username + ".txt");
-            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword;
+            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword << userType;
             myfile.close();
         }
         else
@@ -320,6 +331,7 @@ void changeAccountInfo(string username)
         }
 
         // STILL in PROGRESS
+
         // Delete Old File with the Old Username
     }
 
@@ -336,7 +348,7 @@ void changeAccountInfo(string username)
 
             ofstream myfile;
             myfile.open(username + ".txt");
-            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword;
+            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword << userType;
             myfile.close();
         }
         else

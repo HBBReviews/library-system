@@ -17,9 +17,9 @@ using namespace std;
 
 // Functions Used from Other Files
 void createAccount(bool isAdmin);
-void changeAccountInfo(string username);
+void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
-void manageAccount(bool isAdmin);
+bool openAccount(bool isAdmin);
 
 // Functions Defined in admin.cpp
 bool addItems()
@@ -28,7 +28,7 @@ bool addItems()
     return false;
 }
 
-void removeItems()
+void removeItems() 
 {
     int n = 1;
 
@@ -65,8 +65,6 @@ void removeItems()
 
     cout << "\n----------\n" << n << "\n";
 
-    cout << "\n----------\nRemove Items - Admin Function [2]\n";
-
     // open file in read mode or in mode
     ifstream is(file_name);
 
@@ -95,28 +93,88 @@ void removeItems()
     is.close();
 }
 
-void manageAdminAccounts()
+void manageAdminAccounts() // COMPLETE
 {
-    cout << "\n----------\nManage Accounts - Admin Function [3]\n";
+    string tempName = "";
+    int tempYear{ 0 };
+    string tempUsername = "";
+    string tempPassword = "";
 
-    manageAccount(true);
+    string targetUsername = "";
+    string targetPassword = "";
+
+    string accountName = "";
+
+    cout << "\nEnter Username: ";
+    cin >> targetUsername;
+
+    cout << "\nEnter Password: ";
+    cin >> targetPassword;
+
+    ifstream myfile(targetUsername + ".txt");
+
+    bool isAccountFound = false;
+
+    while (!isAccountFound && myfile >> tempName >> tempYear >> tempUsername >> tempPassword)
+    {
+        if (tempUsername == targetUsername && tempPassword == targetPassword)
+        {
+            accountName = tempName;
+            isAccountFound = true;
+        }
+    }
+
+    if (accountName == "")
+    {
+        cout << "\n----------\nAccount Not Found. Let's Make an Account!\n";
+        createAccount(true);
+    }
+    else
+    {
+        cout << "\n----------\nWelcome, " << addSpace(accountName) << "! Great to have you today!";
+    }
+
+    changeAccountInfo(targetUsername, true);
 }
 
-bool checkAdmin()
+bool checkAdmin() // COMPLETE
 {
+    bool result = false;
     string isAccountMade = "";
+    string adminPassword = "admin123";
+    string tempAdminPassword = "";
+    int numOfChecks = 3;
+
+    for (int i = 0; i < numOfChecks; i++)
+    {
+        cout << "\nEnter Administration Password: ";
+        cin >> tempAdminPassword;
+
+        result = (tempAdminPassword == adminPassword);
+
+        if (result)
+        {
+            i = 3;
+        }
+    }
+
+    if (!result)
+    {
+        cout << "\nYou Have Incorrectly Inputted the Admin Password";
+        return false;
+    }
 
     cout << "\nHave You Made an Account? [Y] or [N]: ";
     cin >> isAccountMade;
 
     if (isAccountMade == "n" || isAccountMade == "N")
     {
-        createAccount(true);
+        createAccount(result);
     }
     else
     {
-        manageAccount(true);
+        openAccount(result);
     }
 
-    return false;
+    return result;
 }
