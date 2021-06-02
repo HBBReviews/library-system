@@ -20,6 +20,7 @@ void createAccount(bool isAdmin);
 void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
 bool openAccount(bool isAdmin);
+void deleteFile(char fileName[14]);
 
 // Functions Defined in admin.cpp
 bool addItems()
@@ -91,6 +92,12 @@ void removeItems()
 
     // closing input file
     is.close();
+
+    // Delete catalog.txt
+    char fileName[14] = "catalog.txt";
+    // deleteFile(fileName); // Activate Only When tempCatalog Rename Function Has Been Accomplished
+
+    // Rename tempCatalog to catalog.txt
 }
 
 void manageAdminAccounts() // COMPLETE

@@ -23,6 +23,8 @@ void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
 string removeSpace(string str);
 
+void deleteFile(char fileName[14]);
+
 // Declare Functions in admin.cpp
 bool addItems();
 void removeItems();
@@ -36,6 +38,8 @@ bool managePersonalAccount();
 
 int main(int argc, const char* argv[])
 {
+    // deleteFile();
+
     // Member Variables
     string typeUser = "";
     bool isAdmin = false;
@@ -262,7 +266,7 @@ void createAccount(bool isAdmin)
     }
 }
 
-// Change Account Details, Delete Account // COMPLETE
+// Change Account Details, Delete Account
 void changeAccountInfo(string username, bool isAdmin)
 {
     cout << "\n----------\nThese are the functions you can do:\n";
@@ -308,10 +312,13 @@ void changeAccountInfo(string username, bool isAdmin)
 
     ifstream myfile(username + ".txt");
     myfile >> tempName >> tempYear >> tempUsername >> tempPassword;
+    myfile.close();
 
     // Change Username
     if (selectedFunction == 1)
     {
+        string oldUsername = tempUsername;
+
         cout << "\nEnter New Username (No Longer than 10 Characters): ";
         cin >> username;
 
@@ -330,9 +337,12 @@ void changeAccountInfo(string username, bool isAdmin)
             cout << "Please Enter Your Details Again\nand Check for Errors.\n";
         }
 
-        // STILL in PROGRESS
-
         // Delete Old File with the Old Username
+        char fileName[14];
+        cout << "Enter Your Old Username Again (and the .txt File Extension): ";
+        cin >> fileName;
+
+        deleteFile(fileName);
     }
 
     // Change Password // COMPLETE
@@ -357,23 +367,14 @@ void changeAccountInfo(string username, bool isAdmin)
         }
     }
 
-    // Delete Account
+    // Delete Account // COMPLETE
     else
     {
-        // STILL in PROGRESS
-        string filename = username + ".txt";
-        char char_array[13];
+        char fileName[14];
+        cout << "Enter Username Again (and the .txt File Extension): ";
+        cin >> fileName;
 
-        strcpy_s(char_array, filename.c_str());
-
-        if (remove("jcampea.txt") != 0)
-        {
-            perror("Error deleting file");
-        }
-        else
-        {
-            puts("File successfully deleted");
-        }
+        deleteFile(fileName);
     }
 }
 
@@ -401,4 +402,20 @@ string removeSpace(string str)
     string strNew = "";
 
     return strNew;
+}
+
+// Delete a File // COMPLETE
+void deleteFile(char fileName[14])
+{
+    int status = 0;
+    status = remove(fileName);
+
+    if (status == 0)
+    {
+        cout << "\nFile Deleted Successfully!\n";
+    }
+    else
+    {
+        cout << "\nError Occurred!\n";
+    }
 }

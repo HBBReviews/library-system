@@ -74,6 +74,7 @@ void checkoutOrReturnItems()
 bool managePersonalAccount()
 {
     string isAccountMade = "";
+    string username = "";
 
     cout << "\nHave You Made an Account? [Y] or [N]: ";
     cin >> isAccountMade;
@@ -85,6 +86,9 @@ bool managePersonalAccount()
     else
     {
         openAccount(false);
+        cout << "\nEnter Username Again Please: ";
+        cin >> username;
+        changeAccountInfo(username, false);
     }
 
     return false;
