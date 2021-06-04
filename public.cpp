@@ -70,7 +70,7 @@ void checkoutOrReturnItems()
     cout << "\n----------\nCheck-Out or Return Items - Public Function [2]\n";
 }
 
-// Log Into Account, Change Account Details, Delete Account
+// Log Into Account, Change Account Details, Delete Account  // COMPLETE
 bool managePersonalAccount()
 {
     string isAccountMade = "";

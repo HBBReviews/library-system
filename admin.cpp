@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include <Bits.h>
 
 using namespace std;
 
@@ -20,7 +19,9 @@ void createAccount(bool isAdmin);
 void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
 bool openAccount(bool isAdmin);
-void deleteFile(char fileName[14]);
+
+void deleteFile(char fileName[20]);
+void renameFile(char oldFileName[20], char newFileName[20]);
 
 // Functions Defined in admin.cpp
 bool addItems()
@@ -29,7 +30,7 @@ bool addItems()
     return false;
 }
 
-void removeItems() 
+void removeItems() // COMPLETE
 {
     int n = 1;
 
@@ -62,9 +63,9 @@ void removeItems()
         }
     }
 
-    const char* file_name = "catalog.txt";
+    myfile.close();
 
-    cout << "\n----------\n" << n << "\n";
+    const char* file_name = "catalog.txt";
 
     // open file in read mode or in mode
     ifstream is(file_name);
@@ -93,11 +94,23 @@ void removeItems()
     // closing input file
     is.close();
 
-    // Delete catalog.txt
-    char fileName[14] = "catalog.txt";
-    // deleteFile(fileName); // Activate Only When tempCatalog Rename Function Has Been Accomplished
+    // Delete Old File with the Old Username
+    char fileName[20];
+    cout << "Enter Your Old File Name (catalog.txt): ";
+    cin >> fileName;
+
+    deleteFile(fileName); // Activate Only When tempCatalog Rename Function Has Been Accomplished
 
     // Rename tempCatalog to catalog.txt
+    char oldFileName[20];
+    cout << "Enter Your Old File Name Again (tempCatalog.txt): ";
+    cin >> oldFileName;
+
+    char newFileName[20];
+    cout << "Enter Your New File Name Again (catalog.txt): ";
+    cin >> newFileName;
+
+    renameFile(oldFileName, fileName);
 }
 
 void manageAdminAccounts() // COMPLETE

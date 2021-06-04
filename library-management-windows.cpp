@@ -23,7 +23,8 @@ void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
 string removeSpace(string str);
 
-void deleteFile(char fileName[14]);
+void deleteFile(char fileName[20]);
+void renameFile(char oldFileName[20], char newFileName[20]);
 
 // Declare Functions in admin.cpp
 bool addItems();
@@ -36,10 +37,8 @@ string getLocationCode();
 void checkoutOrReturnItems();
 bool managePersonalAccount();
 
-int main(int argc, const char* argv[])
+int main(int argc, const char* argv[]) // COMPLETE
 {
-    // deleteFile();
-
     // Member Variables
     string typeUser = "";
     bool isAdmin = false;
@@ -266,7 +265,7 @@ void createAccount(bool isAdmin)
     }
 }
 
-// Change Account Details, Delete Account
+// Change Account Details, Delete Account // COMPLETE
 void changeAccountInfo(string username, bool isAdmin)
 {
     cout << "\n----------\nThese are the functions you can do:\n";
@@ -314,7 +313,7 @@ void changeAccountInfo(string username, bool isAdmin)
     myfile >> tempName >> tempYear >> tempUsername >> tempPassword;
     myfile.close();
 
-    // Change Username
+    // Change Username // COMPLETE
     if (selectedFunction == 1)
     {
         string oldUsername = tempUsername;
@@ -396,7 +395,7 @@ string addSpace(string str)
     return strNew;
 }
 
-// Remove Space from a String // COMPLETE
+// Remove Space from a String
 string removeSpace(string str)
 {
     string strNew = "";
@@ -405,7 +404,7 @@ string removeSpace(string str)
 }
 
 // Delete a File // COMPLETE
-void deleteFile(char fileName[14])
+void deleteFile(char fileName[20])
 {
     int status = 0;
     status = remove(fileName);
@@ -413,6 +412,20 @@ void deleteFile(char fileName[14])
     if (status == 0)
     {
         cout << "\nFile Deleted Successfully!\n";
+    }
+    else
+    {
+        cout << "\nError Occurred!\n";
+    }
+}
+
+void renameFile(char oldFileName[20], char newFileName[20]) // COMPLETE
+{
+    int status = rename(oldFileName, newFileName);
+
+    if (status == 0)
+    {
+        cout << "\nFile Renamed Successfully!\n";
     }
     else
     {
