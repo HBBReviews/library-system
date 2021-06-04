@@ -11,37 +11,33 @@
 
 using namespace std;
 
-// Functionality: Add New Library Materials to Catalog
-
-// Assign Materials a Location ID like the codes in a library
-
-// Give the User the Location ID upon request
-
-// Check-Out Library Materials
-
-// Return Library Materials
-
-// Account
-
-// Book: Book Title, Book Author, Book Genre, Book Page Length
-
 // Declare Functions in main.cpp
 void introText();
 string getUserType();
 int getFunction();
 void selectFunction(int functionNum, bool isAdmin);
 
+bool openAccount(bool isAdmin);
+void createAccount(bool isAdmin);
+void changeAccountInfo(string username, bool isAdmin);
+string addSpace(string str);
+string removeSpace(string str);
+
+void deleteFile(char fileName[20]);
+void renameFile(char oldFileName[20], char newFileName[20]);
+
 // Declare Functions in admin.cpp
 bool addItems();
-bool removeItems();
-void manageAccounts();
+void removeItems();
+void manageAdminAccounts();
+bool checkAdmin();
 
 // Declare Functions in public.cpp
 string getLocationCode();
-bool checkoutOrReturnItems();
+void checkoutOrReturnItems();
 bool managePersonalAccount();
 
-int main(int argc, const char* argv[])
+int main(int argc, const char* argv[]) // COMPLETE
 {
     // Member Variables
     string typeUser = "";
@@ -57,11 +53,11 @@ int main(int argc, const char* argv[])
 
     if (typeUser == "A" || typeUser == "a")
     {
-        isAdmin = true;
-
         cout << "\n----------\nWelcome Administrator!\n";
         cout << "These are the functions you can do:\n";
-        cout << "Add New Library Materials [1], Remove Library Materials [2], Manage Public Accounts [3]";
+        cout << "Add New Library Materials [1], Remove Library Materials [2], Manage Personal Account [3]\n";
+
+        isAdmin = checkAdmin();
     }
     else if (typeUser == "P" || typeUser == "p")
     {
@@ -78,13 +74,13 @@ int main(int argc, const char* argv[])
     return 0;
 }
 
-void introText()
+void introText() // COMPLETE
 {
     cout << "Library Management System:\n";
     cout << "Developed by Charlie Jin\n\n";
 }
 
-string getUserType()
+string getUserType() // COMPLETE
 {
     string userType = "";
     bool checkUserType = false;
@@ -110,7 +106,7 @@ string getUserType()
     return userType;
 }
 
-int getFunction()
+int getFunction() // COMPLETE
 {
     int selectedFunction = 0;
     bool checkFunction = false;
@@ -137,7 +133,7 @@ int getFunction()
     return selectedFunction;
 }
 
-void selectFunction(int functionNum, bool isAdmin)
+void selectFunction(int functionNum, bool isAdmin) // COMPLETE
 {
     if (isAdmin)
     {
@@ -149,8 +145,8 @@ void selectFunction(int functionNum, bool isAdmin)
             removeItems();
             break;
         case 3:
-            manageAccounts();
-
+            manageAdminAccounts();
+            break;
         default:
             break;
         }
@@ -170,5 +166,269 @@ void selectFunction(int functionNum, bool isAdmin)
         default:
             break;
         }
+    }
+}
+
+bool openAccount(bool isAdmin) // COMPLETE
+{
+    string tempName = "";
+    int tempYear{ 0 };
+    string tempUsername = "";
+    string tempPassword = "";
+
+    string targetUsername = "";
+    string targetPassword = "";
+
+    string accountName = "";
+
+    cout << "\nEnter Username: ";
+    cin >> targetUsername;
+
+    cout << "\nEnter Password: ";
+    cin >> targetPassword;
+
+    ifstream myfile(targetUsername + ".txt");
+
+    bool isAccountFound = false;
+
+    while (!isAccountFound && myfile >> tempName >> tempYear >> tempUsername >> tempPassword)
+    {
+        if (tempUsername == targetUsername && tempPassword == targetPassword)
+        {
+            accountName = tempName;
+            isAccountFound = true;
+        }
+    }
+
+    if (accountName == "")
+    {
+        cout << "\n----------\nAccount Not Found. Let's Make an Account!\n";
+        createAccount(isAdmin);
+    }
+    else
+    {
+        cout << "\n----------\nWelcome, " << addSpace(accountName) << "! Great to have you today!";
+    }
+
+    return true;
+}
+
+// COMPLETE
+void createAccount(bool isAdmin)
+{
+    string name = "";
+    string birthYear = "";
+    string username = "";
+    string password = "";
+
+    bool checkUserInfo = false;
+
+    // Ensures Correct Data Type is Obtained from the User
+    while (!checkUserInfo)
+    {
+        cout << "\nEnter Name: ";
+        cin >> name;
+
+        cout << "\nEnter Year of Birth: ";
+        cin >> birthYear;
+
+        cout << "\nEnter New Username (No Longer than 10 Characters): ";
+        cin >> username;
+
+        cout << "\nEnter New Password (No Longer than 10 Characters): ";
+        cin >> password;
+
+        // Check the Data for userType
+        if (username.length() <= 10 && password.length() <= 10)
+        {
+            cout << "Thank You for Creating a New Account\n";
+
+            ofstream myfile;
+            myfile.open(username + ".txt");
+            if (isAdmin)
+            {
+                myfile << name << " " << birthYear << " " << username << " " << password << " " << "A";
+            }
+            else
+            {
+                myfile << name << " " << birthYear << " " << username << " " << password << " " << "U";
+            }
+            
+            myfile.close();
+
+            checkUserInfo = true;
+        }
+        else
+        {
+            cout << "Please Enter Your Details Again\nand Check for Errors.\n";
+        }
+    }
+}
+
+// Change Account Details, Delete Account // COMPLETE
+void changeAccountInfo(string username, bool isAdmin)
+{
+    cout << "\n----------\nThese are the functions you can do:\n";
+    cout << "Change Username [1], Change Password [2], Delete Account [3]\n";
+
+    int selectedFunction = 0;
+    bool checkFunction = false;
+
+    // Ensures Correct Data Type is Obtained from the User
+    while (!checkFunction)
+    {
+        cout << "\n\nSelect Function ([1], [2], or [3]): ";
+        cin >> selectedFunction;
+
+        // Check the Data for userType
+        if (selectedFunction >= 1 && selectedFunction <= 3)
+        {
+            cout << endl;
+
+            checkFunction = true;
+        }
+        else
+        {
+            cout << "Please Enter in a Proper Response.\n";
+        }
+    }
+
+    // Write the Old Data to These Variables
+    string tempName = "";
+    string tempYear = "";
+    string tempUsername = "";
+    string tempPassword = "";
+    string userType = "";
+
+    if (isAdmin)
+    {
+        userType = "A";
+    }
+    else
+    {
+        userType = "U";
+    }
+
+    ifstream myfile(username + ".txt");
+    myfile >> tempName >> tempYear >> tempUsername >> tempPassword;
+    myfile.close();
+
+    // Change Username // COMPLETE
+    if (selectedFunction == 1)
+    {
+        string oldUsername = tempUsername;
+
+        cout << "\nEnter New Username (No Longer than 10 Characters): ";
+        cin >> username;
+
+        // Check the Data to Make Sure It Fits
+        if (username.length() <= 10)
+        {
+            cout << "Thank You for Updating Your Account\n";
+
+            ofstream myfile;
+            myfile.open(username + ".txt");
+            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword << userType;
+            myfile.close();
+        }
+        else
+        {
+            cout << "Please Enter Your Details Again\nand Check for Errors.\n";
+        }
+
+        // Delete Old File with the Old Username
+        char fileName[14];
+        cout << "Enter Your Old Username Again (and the .txt File Extension): ";
+        cin >> fileName;
+
+        deleteFile(fileName);
+    }
+
+    // Change Password // COMPLETE
+    else if (selectedFunction == 2)
+    {
+        cout << "\nEnter New Password (No Longer than 10 Characters): ";
+        cin >> tempPassword;
+
+        // Check the Data to Make Sure It Fits
+        if (tempPassword.length() <= 10)
+        {
+            cout << "Thank You for Updating Your Account\n";
+
+            ofstream myfile;
+            myfile.open(username + ".txt");
+            myfile << tempName << " " << tempYear << " " << username << " " << tempPassword << userType;
+            myfile.close();
+        }
+        else
+        {
+            cout << "Please Enter Your Details Again\nand Check for Errors.\n";
+        }
+    }
+
+    // Delete Account // COMPLETE
+    else
+    {
+        char fileName[14];
+        cout << "Enter Username Again (and the .txt File Extension): ";
+        cin >> fileName;
+
+        deleteFile(fileName);
+    }
+}
+
+// Add Space to a String // COMPLETE
+string addSpace(string str)
+{
+    string strNew = "";
+
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (isupper(str[i]) != 0 && i != 0)
+        {
+            strNew += ' ';
+        }
+
+        strNew += str[i];
+    }
+
+    return strNew;
+}
+
+// Remove Space from a String
+string removeSpace(string str)
+{
+    string strNew = "";
+
+    return strNew;
+}
+
+// Delete a File // COMPLETE
+void deleteFile(char fileName[20])
+{
+    int status = 0;
+    status = remove(fileName);
+
+    if (status == 0)
+    {
+        cout << "\nFile Deleted Successfully!\n";
+    }
+    else
+    {
+        cout << "\nError Occurred!\n";
+    }
+}
+
+void renameFile(char oldFileName[20], char newFileName[20]) // COMPLETE
+{
+    int status = rename(oldFileName, newFileName);
+
+    if (status == 0)
+    {
+        cout << "\nFile Renamed Successfully!\n";
+    }
+    else
+    {
+        cout << "\nError Occurred!\n";
     }
 }

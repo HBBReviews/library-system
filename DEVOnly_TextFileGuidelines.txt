@@ -1,0 +1,15 @@
+Admin File Structure:
+Name (FirstnameLastname, Ex: CharlieJin), Birth Year (Ex: 2004), Username (Max 10 Characters Long, Numbers and Letters, Ex: cjin), Password (Max 10 Characters Long, Numbers and Letters, Ex: CJ1126765), User Type (1 Character Long, U [Public User] or A [Admin] Ex: A)
+
+
+Admin Password:
+Current: admin123
+
+
+Public User File Structure:
+Name (FirstnameLastname, Ex: DanLiu), Birth Year (Ex: 1972), Username (Max 10 Characters Long, Numbers and Letters, Ex: danliupp), Password (Max 10 Characters Long, Numbers and Letters, Ex: 3603), User Type (1 Character Long, U [Public User] or A [Admin] Ex: U)
+
+
+Catalog File Structure:
+ItemName (No Spaces, Ex: YouCan'tGoHomeAgain), Author (NoSpaces, Ex: ThomasWolfe), Location Code (Genre [One Character].IndexNumber, Ex: F.000.001)
+Item Name_2 (No Spaces, Ex: Brazen), Author_2 (NoSpaces, Ex: SeanFeucht), Location Code_2 (Genre [One Character].IndexNumber, Ex: R.000.002)
