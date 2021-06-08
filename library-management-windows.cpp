@@ -20,8 +20,10 @@ void selectFunction(int functionNum, bool isAdmin);
 bool openAccount(bool isAdmin);
 void createAccount(bool isAdmin);
 void changeAccountInfo(string username, bool isAdmin);
+
 string addSpace(string str);
 string removeSpace(string str);
+bool checkIfSpace(string str);
 
 void deleteFile(char fileName[20]);
 void renameFile(char oldFileName[20], char newFileName[20]);
@@ -395,12 +397,34 @@ string addSpace(string str)
     return strNew;
 }
 
-// Remove Space from a String
+// Remove Space from a String // COMPLETE
 string removeSpace(string str)
 {
     string strNew = "";
 
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (str[i] != ' ')
+        {
+            strNew += str[i];
+        }
+    }
+
     return strNew;
+}
+
+// Check if String Has a Space
+bool checkIfSpace(string str)
+{
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (str[i] == ' ')
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // Delete a File // COMPLETE

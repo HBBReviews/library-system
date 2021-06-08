@@ -18,6 +18,7 @@ using namespace std;
 void createAccount(bool isAdmin);
 void changeAccountInfo(string username, bool isAdmin);
 string addSpace(string str);
+bool checkIfSpace(string str);
 bool openAccount(bool isAdmin);
 
 void deleteFile(char fileName[20]);
@@ -27,6 +28,40 @@ void renameFile(char oldFileName[20], char newFileName[20]);
 bool addItems()
 {
     cout << "\n----------\nAdd Items - Admin Function [1]\n";
+
+    string itemName = "";
+    string itemAuthor = "";
+    string itemLocCode = "";
+
+    bool checkUserInfo = false;
+
+    // Ensures Correct Data Type is Obtained from the User
+    while (!checkUserInfo)
+    {
+        cout << "\nEnter Name of Item (No Spaces): ";
+        cin >> itemName;
+
+        cout << "\nEnter Author of Item (No Spaces): ";
+        cin >> itemAuthor;
+
+        cout << "\nEnter Location Code of Item: ";
+        cin >> itemLocCode;
+
+        // Check the Data for userType
+        if (checkIfSpace(itemName) && checkIfSpace(itemAuthor) && checkIfSpace(itemLocCode)) // Condition to Check if itemName, itemAuthor, and itemLocCode have No Spaces
+        {
+            cout << "Thank You for Creating a New Item\n";
+
+            // Add Code to Add Item to catalog.txt
+
+            checkUserInfo = true;
+        }
+        else
+        {
+            cout << "Please Enter Your Details Again\nand Check for Errors.\n";
+        }
+    }
+
     return false;
 }
 
