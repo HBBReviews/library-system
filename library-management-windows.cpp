@@ -33,6 +33,7 @@ bool addItems();
 void removeItems();
 void manageAdminAccounts();
 bool checkAdmin();
+void addItemToCatalogFile(string name, string author, string locCode);
 
 // Declare Functions in public.cpp
 string getLocationCode();

@@ -23,6 +23,7 @@ bool openAccount(bool isAdmin);
 
 void deleteFile(char fileName[20]);
 void renameFile(char oldFileName[20], char newFileName[20]);
+void addItemToCatalogFile(string name, string author, string locCode);
 
 // Functions Defined in admin.cpp
 bool addItems()
@@ -53,6 +54,7 @@ bool addItems()
             cout << "Thank You for Creating a New Item\n";
 
             // Add Code to Add Item to catalog.txt
+            addItemToCatalogFile(itemName, itemAuthor, itemLocCode);
 
             checkUserInfo = true;
         }
@@ -232,4 +234,63 @@ bool checkAdmin() // COMPLETE
     }
 
     return result;
+}
+
+void addItemToCatalogFile(string name, string author, string locCode)
+{
+    ifstream myfile("catalog.txt");
+
+    myfile.close();
+
+    const char* file_name = "catalog.txt";
+
+    // open file in read mode or in mode
+    ifstream is(file_name);
+
+    // open file in write mode or out mode
+    ofstream ofs;
+    ofs.open("testCatalog.txt", ofstream::out);
+
+    // loop getting single characters
+    char c;
+    int line_no = 1;
+    while (is.get(c))
+    {
+        // if a newline character
+        if (c == '\n')
+            line_no++;
+
+        ofs << c;
+    }
+
+    string newItem = "\n" + name + " " + author + " " + locCode;
+
+    for (int i = 0; i < newItem.length(); i++)
+    {
+        ofs << newItem[i];
+    }
+
+    // closing output file
+    ofs.close();
+
+    // closing input file
+    is.close();
+
+    // Delete Old File with the Old Username
+    char fileName[20];
+    cout << "Enter Your Old File Name (catalog.txt): ";
+    cin >> fileName;
+
+    deleteFile(fileName); // Activate Only When tempCatalog Rename Function Has Been Accomplished
+
+    // Rename tempCatalog to catalog.txt
+    char oldFileName[20];
+    cout << "Enter Your Old File Name Again (testCatalog.txt): ";
+    cin >> oldFileName;
+
+    char newFileName[20];
+    cout << "Enter Your New File Name Again (catalog.txt): ";
+    cin >> newFileName;
+
+    renameFile(oldFileName, fileName);
 }
